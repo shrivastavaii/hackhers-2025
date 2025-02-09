@@ -142,7 +142,8 @@ export default function OptionCalculator() {
   const [impliedVol, setImpliedVol] = useState<number | null>(null)
   const [sensitivityTable, setSensitivityTable] = useState<number[][]>([])
 
-  
+  const [showTitle, setShowTitle] = useState(true);
+
   const chartRef = useRef<ChartJS | null>(null);
 
   const handleChange = (name: string, value: string) => {
@@ -150,6 +151,7 @@ export default function OptionCalculator() {
   }
 
   const calculatePrice = () => {
+    setShowTitle(false);
     try {
       const calculatedPrice = blackScholes(inputs.S, inputs.K, inputs.r, inputs.T, inputs.sigma, inputs.optionType)
       setPrice(calculatedPrice)
@@ -196,6 +198,7 @@ export default function OptionCalculator() {
     setChartData({ labels: [], datasets: [] })
     setImpliedVol(null)
     setSensitivityTable([])
+    setShowTitle(true); // Show the title again
   }
 
   const generateChartData = () => {
@@ -270,16 +273,22 @@ export default function OptionCalculator() {
   }, [])
 
   return (
-    <div className="bg-[url('/background.png')] bg-cover bg-center h-screen flex items-center justify-center">
+    <div className="min-h-screen w-full bg-[url('https://i.postimg.cc/L6KrqfBN/newbg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center">
+        {showTitle && (
+            <h1 className="absolute top-16 text-4xl font-extrabold text-offWhite text-center">
+                Black-Scholes Option Pricing Model
+            </h1>
+            )}
+
     <motion.div
       className="p-6 max-w-6xl mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-    >
-      <Card className="bg-gray-800 text-white">
+    > 
+      <Card className="bg-gray-800 text-white shadow-lg border-none">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center text-offWhite">Black-Scholes Option Pricing Model</CardTitle>
+          <CardTitle className="text-3xl font-bold text-center text-offWhite"> </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -304,7 +313,7 @@ export default function OptionCalculator() {
               <Label htmlFor="optionType" className="text-lg text-neonGreen">
                 Option Type
               </Label>
-              <Select value={inputs.optionType} onValueChange={(value) => handleChange("optionType", value)}>
+              <Select value={inputs.optionType} onValueChange={(value) => handleChange("optionType", value)} >
                 <SelectTrigger id="optionType" className="bg-darkTeal text-offWhite border-darkTeal">
                   <SelectValue placeholder="Select option type" />
                 </SelectTrigger>
@@ -335,13 +344,13 @@ export default function OptionCalculator() {
             </div>
           </div>
           <div className="flex space-x-4 mb-4">
-            <Button onClick={calculatePrice} className="flex-1 bg-neonGreen hover:bg-gray-700 border-darkTeal text-black">
+            <Button onClick={calculatePrice} className="flex-1 bg-neonGreen hover:bg-gray-700 border-darkTeal text-black rounded-full mb-5">
               Calculate
             </Button>
             <Button
               onClick={resetInputs}
               variant="outline"
-              className="flex-1 bg-black border-black text-white hover:bg-gray-700"
+              className="flex-1 bg-black border-black text-white hover:bg-gray-700 rounded-full mb-5"
             >
               Reset
             </Button>

@@ -2,9 +2,9 @@ import type { Config } from "tailwindcss";
 
 export default {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -13,13 +13,17 @@ export default {
         midTeal: "#316D60",
         lightTeal: "#5E7371",  
         offWhite: "#AACBC8",
-        neonGreen: "#75fb4b"
+        neonGreen: "#75fb4b",
+        darkGreen: "#1b1b1b"
       },
       fontFamily: {
         sans: ["'Actor'", "sans-serif"], // Make Actor the default sans font
         mono: ["var(--font-geist-mono)", "monospace"],
         inter: ["var(--font-inter)", "sans-serif"],
         poppins: ["var(--font-poppins)", "sans-serif"],
+      },
+      backgroundImage: {
+        'green-background': "./background.png",
       },
     },
   },
