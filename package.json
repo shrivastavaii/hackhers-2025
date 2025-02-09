@@ -4,6 +4,8 @@
     "shadcn-ui": "^0.9.4"
   },
   "dependencies": {
-    "papaparse": "^5.5.2"
+    "chart.js": "^4.4.7",
+    "papaparse": "^5.5.2",
+    "react-chartjs-2": "^5.3.0"
   }
 }

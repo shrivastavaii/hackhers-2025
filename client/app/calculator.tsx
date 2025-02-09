@@ -22,6 +22,7 @@ import {
   Legend,
   Filler,
 } from "chart.js"
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 import { Line } from "react-chartjs-2"
 import { fetchStockData, fetchHistoricalData } from "@/lib/stock-data"
 import CompanyInfo from "./company-info"; 
@@ -198,73 +199,69 @@ export default function OptionCalculator() {
   }
 
   const generateChartData = () => {
-    const range = 100
-    const step = 1
-    const underlyingPrices = Array.from({ length: range }, (_, i) => inputs.S - (range / 2) * step + i * step)
-    const optionPrices = underlyingPrices.map((S) =>
-      blackScholes(S, inputs.K, inputs.r, inputs.T, inputs.sigma, inputs.optionType),
-    )
-    const greekSensitivities = underlyingPrices.map((S) =>
-      calculateGreeks(S, inputs.K, inputs.r, inputs.T, inputs.sigma, inputs.optionType),
-    )
-
-    setChartData({
-      labels: underlyingPrices,
+    const prices: number[] = [];
+    const deltas: number[] = [];
+    const gammas: number[] = [];
+    const thetas: number[] = [];
+    const vegas: number[] = [];
+  
+    const stockPrices = Array.from({ length: 100 }, (_, i) => inputs.S * (0.8 + i * 0.04));
+  
+    stockPrices.forEach((S) => {
+      const { delta, gamma, theta, vega } = calculateGreeks(S, inputs.K, inputs.r, inputs.T, inputs.sigma, inputs.optionType);
+      prices.push(blackScholes(S, inputs.K, inputs.r, inputs.T, inputs.sigma, inputs.optionType));
+      deltas.push(delta);
+      gammas.push(gamma);
+      thetas.push(theta);
+      vegas.push(vega);
+    });
+  
+    const newChartData = {
+      labels: stockPrices,
       datasets: [
         {
           label: "Option Price",
-          data: optionPrices,
-          borderColor: "rgba(75, 192, 192, 1)",
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-          borderWidth: 2,
-          pointRadius: 0,
-          fill: true,
-          tension: 0.4,
+          data: prices,
+          borderColor: "rgb(53, 162, 235)",
+          backgroundColor: "rgba(53, 162, 235, 0.5)",
           yAxisID: "y",
         },
         {
           label: "Delta",
-          data: greekSensitivities.map((g) => g.delta),
-          borderColor: "rgba(255, 99, 132, 1)",
-          borderWidth: 2,
-          pointRadius: 0,
-          fill: false,
-          tension: 0.4,
+          data: deltas,
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
           yAxisID: "y1",
         },
         {
           label: "Gamma",
-          data: greekSensitivities.map((g) => g.gamma),
-          borderColor: "rgba(255, 206, 86, 1)",
-          borderWidth: 2,
-          pointRadius: 0,
-          fill: false,
-          tension: 0.4,
+          data: gammas,
+          borderColor: "rgb(255, 206, 86)",
+          backgroundColor: "rgba(255, 206, 86, 0.5)",
           yAxisID: "y1",
         },
         {
           label: "Theta",
-          data: greekSensitivities.map((g) => g.theta),
-          borderColor: "rgba(54, 162, 235, 1)",
-          borderWidth: 2,
-          pointRadius: 0,
-          fill: false,
-          tension: 0.4,
+          data: thetas,
+          borderColor: "rgb(75, 192, 192)",
+          backgroundColor: "rgba(75, 192, 192, 0.5)",
           yAxisID: "y1",
         },
         {
           label: "Vega",
-          data: greekSensitivities.map((g) => g.vega),
-          borderColor: "rgba(153, 102, 255, 1)",
-          borderWidth: 2,
-          pointRadius: 0,
-          fill: false,
-          tension: 0.4,
+          data: vegas,
+          borderColor: "rgb(153, 102, 255)",
+          backgroundColor: "rgba(153, 102, 255, 0.5)",
           yAxisID: "y1",
         },
       ],
-    })
-  }
+    };
+  
+    console.log("📊 Generated Chart Data:", newChartData); // ✅ Debugging
+    setChartData(newChartData);
+  };
+  
+  
 
   useEffect(() => {
     if (chartRef.current) {
