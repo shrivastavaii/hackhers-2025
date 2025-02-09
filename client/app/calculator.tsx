@@ -270,22 +270,23 @@ export default function OptionCalculator() {
   }, [])
 
   return (
+    <div className="bg-[url('/background.png')] bg-cover bg-center h-screen flex items-center justify-center">
     <motion.div
       className="p-6 max-w-6xl mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Card className="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+      <Card className="bg-gray-800 text-white">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center">Black-Scholes Option Pricing Model</CardTitle>
+          <CardTitle className="text-3xl font-bold text-center text-offWhite">Black-Scholes Option Pricing Model</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {Object.entries(inputs).map(([key, value]) =>
               key !== "optionType" && key !== "marketPrice" ? (
                 <div key={key} className="space-y-2">
-                  <Label htmlFor={key} className="text-lg">
+                  <Label htmlFor={key} className="text-lg text-neonGreen">
                     {key.toUpperCase()}
                   </Label>
                   <Input
@@ -294,32 +295,32 @@ export default function OptionCalculator() {
                     type="number"
                     value={value}
                     onChange={(e) => handleChange(key, e.target.value)}
-                    className="bg-gray-700 text-white border-gray-600"
+                    className="bg-darkTeal text-offWhite border-darkTeal"
                   />
                 </div>
               ) : null,
             )}
             <div className="space-y-2">
-              <Label htmlFor="optionType" className="text-lg">
+              <Label htmlFor="optionType" className="text-lg text-neonGreen">
                 Option Type
               </Label>
               <Select value={inputs.optionType} onValueChange={(value) => handleChange("optionType", value)}>
-                <SelectTrigger id="optionType" className="bg-gray-700 text-white border-gray-600">
+                <SelectTrigger id="optionType" className="bg-darkTeal text-offWhite border-darkTeal">
                   <SelectValue placeholder="Select option type" />
                 </SelectTrigger>
-                <SelectContent className="bg-gray-900 border border-gray-700 text-white rounded-md shadow-lg">
+                <SelectContent className="bg-darkTeal border border-gray-700 text-offWhite rounded-md shadow-lg">
                 {/* ✅ Customize Each Item (Text & Hover Effects) */}
-                <SelectItem value="C" className="hover:bg-blue-600 hover:text-white p-2 rounded-md">
+                <SelectItem value="C" className="hover:bg-blue-600 hover:text-offWhite p-2 rounded-md">
                     📈 Call Option
                 </SelectItem>
-                <SelectItem value="P" className="hover:bg-red-600 hover:text-white p-2 rounded-md">
+                <SelectItem value="P" className="hover:bg-red-600 hover:text-offWhite p-2 rounded-md">
                     📉 Put Option
                 </SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="marketPrice" className="text-lg">
+              <Label htmlFor="marketPrice" className="text-lg text-neonGreen">
                 Market Price (optional)
               </Label>
               <Input
@@ -328,37 +329,37 @@ export default function OptionCalculator() {
                 type="number"
                 value={inputs.marketPrice || ""}
                 onChange={(e) => handleChange("marketPrice", e.target.value)}
-                className="bg-gray-700 text-white border-gray-600"
+                className="bg-darkTeal text-offWhite border-gray-600"
                 placeholder="For Implied Volatility"
               />
             </div>
           </div>
-          <div className="flex space-x-4">
-            <Button onClick={calculatePrice} className="flex-1 bg-blue-500 hover:bg-blue-600 text-white">
+          <div className="flex space-x-4 mb-4">
+            <Button onClick={calculatePrice} className="flex-1 bg-neonGreen hover:bg-gray-700 border-darkTeal text-black">
               Calculate
             </Button>
             <Button
               onClick={resetInputs}
               variant="outline"
-              className="flex-1 border-gray-500 text-gray-300 hover:bg-gray-700"
+              className="flex-1 bg-black border-black text-white hover:bg-gray-700"
             >
               Reset
             </Button>
           </div>
           {price !== null && (
-            <div className="mt-8 space-y-8">
+            <div className="mt-8 space-y-12">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 bg-gray-800 p-4 rounded-lg">
                 <div className="text-center">
-                  <h4 className="text-lg font-semibold text-gray-400">Option Price</h4>
-                  <p className="text-2xl font-bold text-blue-400">{price.toFixed(4)}</p>
+                  <h4 className="text-lg font-semibold text-offWhite">Option Price</h4>
+                  <p className="text-2xl font-bold text-cyan-700">{price.toFixed(4)}</p>
                 </div>
                 {greeks &&
                   Object.entries(greeks).map(([key, value]) => (
                     <div key={key} className="text-center">
-                      <h4 className="text-lg font-semibold text-gray-400">
+                      <h4 className="text-lg font-semibold text-offWhite">
                         {key.charAt(0).toUpperCase() + key.slice(1)}
                       </h4>
-                      <p className="text-2xl font-bold text-green-400">{value.toFixed(4)}</p>
+                      <p className="text-2xl font-bold text-neonGreen">{value.toFixed(4)}</p>
                     </div>
                   ))}
                 {impliedVol !== null && (
@@ -501,6 +502,7 @@ export default function OptionCalculator() {
       </div>
       </Card>
     </motion.div>
+    </div>
   )
 }
 

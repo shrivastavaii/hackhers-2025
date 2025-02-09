@@ -16,7 +16,7 @@ interface Company {
 const sp500Data: Company[] = [
   { Symbol: "AAPL", Name: "Apple Inc.", Price: 150.25, RevenueGrowth: 5.5 },
   { Symbol: "MSFT", Name: "Microsoft Corporation", Price: 280.75, RevenueGrowth: 4.2 },
-  { Symbol: "AMZN", Name: "Amazon.com Inc.", Price: 3200.5, RevenueGrowth: 7.8 },
+  { Symbol: "AMZN", Name: "Amazon.com Inc.", Price: 3200.5, RevenueGrowth: -7.8 },
   // Add more companies here
 ];
 
@@ -45,19 +45,19 @@ export default function CompanyInfo() {
     className={`w-full max-w-md ${
       companyInfo
         ? companyInfo.revenueGrowth > 0
-          ? "bg-green-100 border border-green-300"
-          : "bg-red-100 border border-red-300"
-        : "bg-gray-100 border border-gray-300"
+          ? "bg-gradient-to-r from-darkTeal via-midTeal to-darkTeal border border-none"
+          : "bg-gradient-to-r from-darkTeal via-midTeal to-darkTeal border border-none"
+        : "bg-gradient-to-r from-darkTeal via-midTeal to-darkTeal border border-none"
     }`}
   >
       <CardHeader>
-        <CardTitle>Company Information</CardTitle>
-        <CardDescription>Enter a stock symbol to view company details</CardDescription>
+        <CardTitle className="text-white">Company Information</CardTitle>
+        <CardDescription className="text-white">Enter a stock symbol to view company details</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
           <div>
-            <Label htmlFor="symbol">Stock Symbol</Label>
+            
             <Input
               id="symbol"
               placeholder="Enter stock symbol (e.g., AAPL)"
@@ -67,9 +67,18 @@ export default function CompanyInfo() {
           </div>
           {companyInfo && (
             <div>
-              <h3 className="text-lg font-semibold mb-2">Company Details</h3>
-              <p>Current Price: ${companyInfo.price.toFixed(2)}</p>
-              <p>Revenue Growth: {companyInfo.revenueGrowth.toFixed(2)}%</p>
+              <h3 className="!font-extrabold text-lg text-white mb-2">
+              {sp500Data.find((c) => c.Symbol.toLowerCase() === symbol.toLowerCase())?.Name || symbol.toUpperCase()} 
+            </h3>
+
+              <p className="text-white">
+                Current Price: ${companyInfo.price.toFixed(2)}
+              </p>
+
+              <p className={companyInfo.revenueGrowth >= 0 ? "text-green-400" : "text-red-400"}>
+                Revenue Growth: {companyInfo.revenueGrowth.toFixed(2)}%
+              </p>
+
             </div>
           )}
         </div>

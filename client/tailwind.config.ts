@@ -9,11 +9,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#97ACA5",
-        foreground: "#446461",
+        darkTeal: "#254642",
+        midTeal: "#316D60",
+        lightTeal: "#5E7371",  
+        offWhite: "#AACBC8",
+        neonGreen: "#75fb4b"
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "sans-serif"],
+        sans: ["'Actor'", "sans-serif"], // Make Actor the default sans font
         mono: ["var(--font-geist-mono)", "monospace"],
         inter: ["var(--font-inter)", "sans-serif"],
         poppins: ["var(--font-poppins)", "sans-serif"],
