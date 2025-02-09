@@ -1,0 +1,19 @@
+name: RUenv
+channels:
+  - defaults
+  - conda-forge
+  - pytorch
+
+dependencies:
+  - python=3.10
+  - pytorch
+  - torchvision
+  - torchaudio
+  - flask
+  - flask-cors
+  - pymongo
+  - geopy
+  - requests
+  - pip
+  - pip:
+      - torch

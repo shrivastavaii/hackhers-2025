@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/papaparse": "^5.3.15",
+    "shadcn-ui": "^0.9.4"
+  },
+  "dependencies": {
+    "papaparse": "^5.5.2"
+  }
+}

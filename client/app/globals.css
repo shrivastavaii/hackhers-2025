@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #97ACA5;
+}
+.sign-in{
+  width:90px;
+}
+/* Position the logo at the top center of the page */
+.logo {
+  position: absolute;
+  top: 20px;          /* Adjust this value as needed for spacing */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+body {
+  background: black;
+  font-family: Arial, Helvetica, sans-serif;
+}
